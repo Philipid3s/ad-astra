@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ad Astra — Upcoming Rocket Launches</title>
+  <meta name="description" content="Follow upcoming rocket launches and the latest spaceflight news.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="stars" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <a class="brand" href="#top">
+      <span class="brand-mark" aria-hidden="true">✦</span>
+      <span>Ad Astra</span>
+    </a>
+    <nav>
+      <a href="#launches">Launches</a>
+      <a href="#news">News</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <!-- Next launch hero -->
+    <section class="hero" id="hero" aria-live="polite">
+      <div class="hero-bg" id="hero-bg"></div>
+      <div class="hero-content">
+        <p class="eyebrow">Next launch</p>
+        <h1 id="hero-name">Loading…</h1>
+        <p class="hero-meta" id="hero-meta"></p>
+        <div class="countdown" id="hero-countdown" aria-label="Countdown"></div>
+        <div class="hero-actions" id="hero-actions"></div>
+      </div>
+    </section>
+
+    <!-- Launch list -->
+    <section class="section" id="launches">
+      <div class="section-head">
+        <h2>Upcoming launches</h2>
+        <p class="muted" id="launch-count"></p>
+      </div>
+
+      <div class="filters">
+        <input type="search" id="f-search" placeholder="Search mission, rocket, pad…" aria-label="Search launches">
+        <select id="f-provider" aria-label="Filter by provider">
+          <option value="">All providers</option>
+        </select>
+        <label class="toggle">
+          <input type="checkbox" id="f-go">
+          <span>Confirmed only</span>
+        </label>
+      </div>
+
+      <div class="notice" id="launch-notice" hidden></div>
+      <div class="grid" id="launch-grid"></div>
+    </section>
+
+    <!-- News -->
+    <section class="section" id="news">
+      <div class="section-head">
+        <h2>Spaceflight news</h2>
+        <button class="btn ghost" id="news-more">Load more</button>
+      </div>
+      <div class="notice" id="news-notice" hidden></div>
+      <div class="news-list" id="news-list"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Launch data from <a href="https://thespacedevs.com/llapi" target="_blank" rel="noopener">The Space Devs — Launch Library 2</a>.
+       News from <a href="https://spaceflightnewsapi.net" target="_blank" rel="noopener">Spaceflight News API</a>.</p>
+    <p class="muted">Times shown in your local time zone (<span id="tz"></span>).</p>
+  </footer>
+
+  <!-- Launch detail dialog -->
+  <dialog id="detail">
+    <button class="close" id="detail-close" aria-label="Close">✕</button>
+    <div id="detail-body"></div>
+  </dialog>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

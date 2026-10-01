@@ -1,0 +1,54 @@
+# Builds the launch-data snapshot and publishes the site to GitHub Pages.
+# Runs on every push to main, every 10 minutes (to keep launch data fresh), and on demand.
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# One deployment at a time; a newer run waits instead of cancelling one in progress.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+
+      # If the API is unreachable or rate-limited this step fails, nothing is deployed,
+      # and the previous deployment (with its slightly older data) stays online.
+      - name: Fetch launch data
+        run: node scripts/fetch-data.mjs
+
+      - name: Assemble site
+        run: |
+          mkdir _site
+          cp -r index.html css js data _site/
+          touch _site/.nojekyll
+
+      - uses: actions/configure-pages@v6
+
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: _site
+
+      - id: deployment
+        uses: actions/deploy-pages@v5
